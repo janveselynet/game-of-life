@@ -49,7 +49,7 @@ class WorldTest extends TestCase
     {
         $this->setEvolutionExpectationsOnCells();
         $newWorld = $this->world->evolve($this->random);
-        Assert::true($newWorld instanceof World);
+        Assert::true($newWorld instanceof World, "Evolved object should be instance of World");
         Assert::same(self::WORLD_SIZE, $newWorld->getSize());
         $newCells = $newWorld->getCells();
         $this->checkAllCellsAreSet($newCells);
@@ -61,12 +61,12 @@ class WorldTest extends TestCase
      */
     private function checkAllCellsAreSet(array $cells)
     {
-        Assert::true(is_array($cells));
+        Assert::true(is_array($cells), "Cells should be array");
         for ($y = 0; $y < self::WORLD_SIZE; $y++) {
-            Assert::true(isset($cells[$y]));
+            Assert::true(isset($cells[$y]), "Cells should have row with index {$y}");
             for ($x = 0; $x < self::WORLD_SIZE; $x++) {
-                Assert::true(isset($cells[$y][$x]));
-                Assert::true($cells[$y][$x] instanceof Cell);
+                Assert::true(isset($cells[$y][$x]), "Cells row {$y} should have cell with index {$x}");
+                Assert::true($cells[$y][$x] instanceof Cell, "Object on index {$y},{$x} should be instance of Cell");
             }
         }
     }

@@ -34,7 +34,7 @@ class GameTest extends TestCase
         $input = $this->getInputMock($worlds[0]);
         $output = $this->getOutputMock($worlds[self::ITERATION_COUNT]);
         $finalWord = $this->game->run($input, $output);
-        Assert::true($finalWord instanceof World);
+        Assert::true($finalWord instanceof World, "Given object should be instance of World");
     }
 
     /**

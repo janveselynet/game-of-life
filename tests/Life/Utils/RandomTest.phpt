@@ -25,7 +25,7 @@ class RandomTest extends TestCase
         $array = [1, 5, 10];
         for ($i = 0; $i < 10; $i++) {
             $randomValue = $this->random->getRandomArrayValue($array);
-            Assert::true(in_array($randomValue, $array));
+            Assert::true(in_array($randomValue, $array), "Given value should be between original values");
         }
     }
 
