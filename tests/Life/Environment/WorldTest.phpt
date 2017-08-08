@@ -13,6 +13,7 @@ class WorldTest extends TestCase
 {
 
     const WORLD_SIZE = 3;
+    const SPECIES_COUNT = 5;
 
     /** @var Cell[][] */
     private $cells;
@@ -30,13 +31,18 @@ class WorldTest extends TestCase
             [$this->createMockCell(),$this->createMockCell(),$this->createMockCell()],
             [$this->createMockCell(), $this->createMockCell(), $this->createMockCell()],
         ];
-        $this->world = new World(self::WORLD_SIZE, $this->cells);
+        $this->world = new World(self::WORLD_SIZE, self::SPECIES_COUNT, $this->cells);
         $this->random = \Mockery::mock(Random::class);
     }
 
     public function testGettingSize()
     {
         Assert::same(self::WORLD_SIZE, $this->world->getSize());
+    }
+
+    public function testGettingSpecies()
+    {
+        Assert::same(self::SPECIES_COUNT, $this->world->getSpecies());
     }
 
     public function testGettingCells()
@@ -51,6 +57,7 @@ class WorldTest extends TestCase
         $newWorld = $this->world->evolve($this->random);
         Assert::true($newWorld instanceof World, "Evolved object should be instance of World");
         Assert::same(self::WORLD_SIZE, $newWorld->getSize());
+        Assert::same(self::SPECIES_COUNT, $newWorld->getSpecies());
         $newCells = $newWorld->getCells();
         $this->checkAllCellsAreSet($newCells);
     }

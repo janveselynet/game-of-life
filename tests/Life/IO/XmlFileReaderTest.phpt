@@ -19,6 +19,7 @@ class XmlFileReaderTest extends TestCase
         $world = $reader->getInitialWorld();
         $expectedSize = 5;
         Assert::same($expectedSize, $world->getSize());
+        Assert::same(3, $world->getSpecies());
         $cells = $world->getCells();
         $expectedSpecies = [
             [1,    null, 2,    null, 1   ],

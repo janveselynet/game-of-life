@@ -72,7 +72,7 @@ class XmlFileReader implements IInputReader
                 throw new InvalidInputException("Value of element 'species' must be positive number");
             }
             $cells = $this->readCells($life, $worldSize, $speciesCount);
-            $this->initialWorld = new World($worldSize, $cells);
+            $this->initialWorld = new World($worldSize, $speciesCount, $cells);
             $this->fileLoaded = true;
         }
     }

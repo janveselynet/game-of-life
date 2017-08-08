@@ -13,6 +13,9 @@ class World
     /** @var int dimension of the world */
     private $size;
 
+    /** @var int number of kind of species */
+    private $species;
+
     /**
      * @var Cell[][]
      * Array of available cells in the world with size x size dimensions
@@ -22,11 +25,13 @@ class World
 
     /**
      * @param int $size
+     * @param int $species
      * @param Cell[][] $cells
      */
-    public function __construct($size, array $cells)
+    public function __construct(int $size, int $species, array $cells)
     {
         $this->size = $size;
+        $this->species = $species;
         $this->cells = $cells;
     }
 
@@ -36,6 +41,14 @@ class World
     public function getSize(): int
     {
         return $this->size;
+    }
+
+    /**
+     * @return int return number of kind of species in the world
+     */
+    public function getSpecies(): int
+    {
+        return $this->species;
     }
 
     /**
@@ -59,7 +72,7 @@ class World
                 $newCells[$y][$x] = $this->evolveCell($x, $y, $random);
             }
         }
-        return new World($this->size, $newCells);
+        return new World($this->size, $this->species, $newCells);
     }
 
     /**
