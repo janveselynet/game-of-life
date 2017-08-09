@@ -4,6 +4,7 @@ namespace Life;
 
 use Life\Environment\World;
 use Life\Exceptions\InvalidInputException;
+use Life\Exceptions\OutputWritingException;
 use Life\IO\IInputReader;
 use Life\IO\IOutputWriter;
 use Life\Utils\Random;
@@ -30,6 +31,7 @@ class Game
      * @param IOutputWriter $outputWriter
      * @return World returns final state of world
      * @throws InvalidInputException when something goes wrong during input reading
+     * @throws OutputWritingException when writing output failed for some reason
      */
     public function run(IInputReader $input, IOutputWriter $outputWriter)
     {
