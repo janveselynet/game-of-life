@@ -5,6 +5,8 @@ namespace Life\IO;
 use Life\Environment\Cell;
 use Life\Exceptions\InvalidInputException;
 use Life\TestCase;
+use Life\Utils\Random;
+use Mockery\MockInterface;
 use Tester\Assert;
 
 require_once __DIR__ . '/../../bootstrap.php';
@@ -14,7 +16,9 @@ class XmlFileReaderTest extends TestCase
 
     public function testReadingValidFile()
     {
-        $reader = new XmlFileReader(__DIR__ . '/files/input-valid.xml');
+        $path = __DIR__ . '/files/input-valid.xml';
+        $random = $this->createRandomMockThatIsNotUsed();
+        $reader = new XmlFileReader($path, $random);
         Assert::same(100, $reader->getIterationsCount());
         $world = $reader->getInitialWorld();
         $expectedSize = 5;
@@ -46,7 +50,8 @@ class XmlFileReaderTest extends TestCase
         Assert::exception(
             function() use($fileName) {
                 $path = __DIR__ . '/files/' . $fileName;
-                $reader = new XmlFileReader($path);
+                $random = $this->createRandomMockThatIsNotUsed();
+                $reader = new XmlFileReader($path, $random);
                 $reader->getInitialWorld();
             },
             'Life\\Exceptions\\InvalidInputException',
@@ -83,6 +88,27 @@ class XmlFileReaderTest extends TestCase
             ["input-negative-organism-species.xml", "Value of element 'species' of element 'organism' must be between 0 and maximal number of species"],
             ["input-exceeded-organism-species.xml", "Value of element 'species' of element 'organism' must be between 0 and maximal number of species"],
         ];
+    }
+
+    public function testChoosingSpeciesRandomlyIfMoreOrganismsAreInOnePosition()
+    {
+        $path = __DIR__ . '/files/input-duplicate.xml';
+        $random = \Mockery::mock(Random::class); /** @var MockInterface|Random $random */
+        $random->shouldReceive('getRandomArrayValue')->once()->with([0, 1])->andReturn(1);
+        $reader = new XmlFileReader($path, $random);
+        $world = $reader->getInitialWorld();
+        $cell = $world->getCells()[0][0]; /** @var Cell $cell */
+        Assert::same(1, $cell->getOrganism());
+    }
+
+    /**
+     * @return MockInterface|Random
+     */
+    private function createRandomMockThatIsNotUsed()
+    {
+        $random = \Mockery::mock(Random::class);
+        $random->shouldReceive('getRandomArrayValue')->never();
+        return $random;
     }
 
 }

@@ -5,6 +5,8 @@ namespace Life\IO;
 use Life\Environment\Cell;
 use Life\Environment\World;
 use Life\Exceptions\InvalidInputException;
+use Life\Utils\Random;
+
 
 /**
  * For reading and parsing XML file with input for Game of Life
@@ -24,12 +26,17 @@ class XmlFileReader implements IInputReader
     /** @var bool if xml file was already read and parsed or not */
     private $fileLoaded;
 
+    /** @var Random */
+    private $random;
+
     /**
      * @param string $filePath
+     * @param Random $random
      */
-    public function __construct(string $filePath)
+    public function __construct(string $filePath, Random $random)
     {
         $this->filePath = $filePath;
+        $this->random = $random;
     }
 
     /**
@@ -160,7 +167,13 @@ class XmlFileReader implements IInputReader
                 throw new InvalidInputException("Value of element 'species' of element 'organism' must be between 0 and maximal number of species");
             }
             $cells[$y] = $cells[$y] ?? [];
-            $cells[$y][$x] = new Cell($species);
+            $finalSpecies = $species;
+            if (isset($cells[$y][$x])) {
+                $existingCell = $cells[$y][$x]; /** @var Cell $existingCell */
+                $availableSpecies = [$existingCell->getOrganism(), $species];
+                $finalSpecies = $this->random->getRandomArrayValue($availableSpecies);
+            }
+            $cells[$y][$x] = new Cell($finalSpecies);
         }
         for ($y = 0; $y < $worldSize; $y++) {
             $cells[$y] = $cells[$y] ?? [];
