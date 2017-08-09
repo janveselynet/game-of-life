@@ -5,6 +5,9 @@ namespace Life\IO;
 use Life\Environment\World;
 use Life\Exceptions\OutputWritingException;
 
+/**
+ * Basic interface for classes writing game output
+ */
 interface IOutputWriter
 {
 

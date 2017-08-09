@@ -5,7 +5,6 @@ namespace Life\IO;
 use Life\Environment\World;
 use Life\Exceptions\InvalidInputException;
 
-
 /**
  * Basic interface for classes reading game input from user
  */

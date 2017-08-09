@@ -33,7 +33,7 @@ class Game
      * @throws InvalidInputException when something goes wrong during input reading
      * @throws OutputWritingException when writing output failed for some reason
      */
-    public function run(IInputReader $input, IOutputWriter $outputWriter)
+    public function run(IInputReader $input, IOutputWriter $outputWriter): World
     {
         $world = $input->getInitialWorld();
         $iterations = $input->getIterationsCount();
