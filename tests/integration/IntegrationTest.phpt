@@ -9,7 +9,7 @@ use Tester\Assert;
 
 require_once __DIR__ . '/../bootstrap.php';
 
-class XmlFileWriterTest extends TestCase
+class IntegrationTest extends TestCase
 {
 
     const OUTPUT_FILE = 'output.xml';
@@ -84,4 +84,4 @@ class XmlFileWriterTest extends TestCase
 
 }
 
-(new XmlFileWriterTest())->run();
+(new IntegrationTest())->run();
