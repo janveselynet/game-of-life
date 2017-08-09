@@ -1,6 +1,7 @@
 {
   "require": {
-    "php": ">=7.0.0"
+    "php": ">=7.0.0",
+    "nategood/commando": "*"
   },
   "require-dev": {
     "nette/tester": "^1.7",
