@@ -83,7 +83,7 @@ class World
      */
     private function evolveCell(int $x, int $y, Random $random): Cell
     {
-        $cell = $this->cells[$x][$y];
+        $cell = $this->cells[$y][$x];
         $neighbours = $this->getNeighbours($x, $y);
         return $cell->evolve($neighbours, $random);
     }
