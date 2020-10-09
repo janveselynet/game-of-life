@@ -1,5 +1,3 @@
-.idea
-vendor/*
-tests/tmp/*
+vendor
+tests/tmp
 tests/**/output/*
-!.gitkeep
