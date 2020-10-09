@@ -2,17 +2,17 @@
 
 namespace Life\Environment;
 
-/**
- * Representing neighbours of concrete cell, computes some basic statistics about neighbours useful for evolution
- */
 final class Neighbours
 {
+    /**
+     * @var Cell[]
+     */
+    private array $neighbours;
 
-    /** @var Cell[] */
-    private $neighbours;
-
-    /** @var array where key is species identifier and value is number of available organisms with this species */
-    private $availableSpeciesCounts;
+    /**
+     * @var int[] where key is speciesCount identifier and value is number of available organisms with this speciesCount
+     */
+    private array $availableSpeciesCounts;
 
     /**
      * @param Cell[] $neighbours
@@ -32,7 +32,7 @@ final class Neighbours
     }
 
     /**
-     * @return int[] get species identifiers that are present in neighbours
+     * @return int[]
      */
     public function getAvailableSpecies(): array
     {
@@ -40,43 +40,39 @@ final class Neighbours
     }
 
     /**
-     * @return int[] get species identifiers that are present in neighbours and can born new cell
+     * @return int[]
      */
     public function getSpeciesForBirth(): array
     {
         return array_values(
-            array_filter($this->getAvailableSpecies(), function($species) {
-                return $this->getSpeciesCount($species) === 3;
-            })
+            array_filter(
+                $this->getAvailableSpecies(),
+                function (int $species): bool {
+                    return $this->getSpeciesCount($species) === 3;
+                }
+            )
         );
     }
 
-    /**
-     * @param int $species
-     * @returns bool if given species has correct count of neighbours of same type to survive
-     */
     public function canSpeciesSurvive(int $species): bool
     {
         $sameNeighboursCount = $this->getSpeciesCount($species);
         return $sameNeighboursCount >= 2 && $sameNeighboursCount <= 3;
     }
 
-    /**
-     * @param int $species species identifier
-     * @return int number of neighbours of given species
-     */
     public function getSpeciesCount(int $species): int
     {
-        return isset($this->availableSpeciesCounts[$species]) ? $this->availableSpeciesCounts[$species] : 0;
+        return $this->availableSpeciesCounts[$species] ?? 0;
     }
 
     /**
      * @param Cell[] $neighbours
-     * @return array
+     * @return int[]
      */
     private function computeAvailableSpeciesCounts(array $neighbours): array
     {
         $counts = [];
+
         foreach ($neighbours as $neighbour) {
             $species = $neighbour->getOrganism();
             if ($species !== null) {
@@ -84,7 +80,7 @@ final class Neighbours
                 $counts[$species]++;
             }
         }
+
         return $counts;
     }
-
 }

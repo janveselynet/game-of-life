@@ -42,7 +42,7 @@ final class WorldTest extends TestCase
 
     public function testGettingSpecies()
     {
-        Assert::same(self::SPECIES_COUNT, $this->world->getSpecies());
+        Assert::same(self::SPECIES_COUNT, $this->world->getSpeciesCount());
     }
 
     public function testGettingCells()
@@ -57,7 +57,7 @@ final class WorldTest extends TestCase
         $newWorld = $this->world->evolve($this->random);
         Assert::true($newWorld instanceof World, "Evolved object should be instance of World");
         Assert::same(self::WORLD_SIZE, $newWorld->getSize());
-        Assert::same(self::SPECIES_COUNT, $newWorld->getSpecies());
+        Assert::same(self::SPECIES_COUNT, $newWorld->getSpeciesCount());
         $newCells = $newWorld->getCells();
         $this->checkAllCellsAreSet($newCells);
     }

@@ -2,67 +2,65 @@
 
 namespace Life\IO;
 
+use DOMDocument;
 use Life\Environment\Cell;
 use Life\Environment\World;
-use Life\Exceptions\OutputWritingException;
+use SimpleXMLElement;
 
-/**
- * Class for saving given world to XML file
- */
 final class XmlFileWriter implements IOutputWriter
 {
+    private const OUTPUT_TEMPLATE = 'files/output-template.xml';
 
-    const OUTPUT_TEMPLATE = 'files/output-template.xml';
+    private string $filePath;
 
-    /** @var string path of xml file to write to */
-    private $filePath;
-
-    /**
-     * @param string $filePath
-     */
     public function __construct(string $filePath)
     {
         $this->filePath = $filePath;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function saveWorld(World $world)
+    public function saveWorld(World $world): void
     {
-        $life = simplexml_load_file(__DIR__ . '/' . self::OUTPUT_TEMPLATE);
         $size = $world->getSize();
-        $life->world->cells = $size;
-        $life->world->species = $world->getSpecies();
         $cells = $world->getCells();
+
+        $life = simplexml_load_file(sprintf('%s/%s', __DIR__, self::OUTPUT_TEMPLATE));
+        $life->world->cells = $size;
+        $life->world->species = $world->getSpeciesCount();
+
         for ($y = 0; $y < $size; $y++) {
             for ($x = 0; $x < $size; $x++) {
-                $cell = $cells[$y][$x]; /** @var Cell $cell */
+                /** @var Cell $cell */
+                $cell = $cells[$y][$x];
+
                 if ($cell->hasOrganism()) {
-                    $organism = $life->organisms->addChild('organism'); /** @var \SimpleXMLElement $organism */
-                    $organism->addChild('x_pos', $x);
-                    $organism->addChild('y_pos', $y);
-                    $organism->addChild('species', $cell->getOrganism());
+                    /** @var SimpleXMLElement $organism */
+                    $organism = $life->organisms->addChild('organism');
+
+                    $organism->addChild('x_pos', (string)$x);
+                    $organism->addChild('y_pos', (string)$y);
+                    $organism->addChild('speciesCount', (string)$cell->getOrganism());
                 }
             }
         }
+
         $this->saveXml($life);
     }
 
     /**
-     * @param \SimpleXMLElement $life
+     * @param SimpleXMLElement $life
      * @return void
-     * @throws OutputWritingException when writing output failed for some reason
+     * @throws OutputWritingException
      */
-    private function saveXml(\SimpleXMLElement $life)
+    private function saveXml(SimpleXMLElement $life): void
     {
-        $dom = new \DOMDocument('1.0');
+        $dom = new DOMDocument('1.0');
         $dom->preserveWhiteSpace = false;
         $dom->formatOutput = true;
         $dom->loadXML($life->asXML());
+
         $result = file_put_contents($this->filePath, $dom->saveXML());
         if ($result === false) {
-            throw new OutputWritingException("Writing XML file failed");
+            throw new OutputWritingException('Writing XML file failed');
         }
     }
 

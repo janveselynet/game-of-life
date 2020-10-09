@@ -17,39 +17,39 @@ Parameter ```-o``` is optional, default value is ```out.xml```.
 <life>
     <world>
         <cells>4</cells> <!-- Dimension of the square "world" -->
-        <species>1</species> <!-- Number of distinct species -->
+        <speciesCount>1</speciesCount> <!-- Number of distinct speciesCount -->
         <iterations>10</iterations> <!-- Number of iterations to be calculated -->
     </world>
     <organisms>
         <organism>
             <x_pos>2</x_pos> <!-- x position -->
             <y_pos>0</y_pos> <!-- y position -->
-            <species>0</species> <!-- Species type -->
+            <speciesCount>0</speciesCount> <!-- Species type -->
         </organism>
         <organism>
             <x_pos>0</x_pos>
             <y_pos>1</y_pos>
-            <species>0</species>
+            <speciesCount>0</speciesCount>
         </organism>
         <organism>
             <x_pos>3</x_pos>
             <y_pos>1</y_pos>
-            <species>0</species>
+            <speciesCount>0</speciesCount>
         </organism>
         <organism>
             <x_pos>0</x_pos>
             <y_pos>2</y_pos>
-            <species>0</species>
+            <speciesCount>0</speciesCount>
         </organism>
         <organism>
             <x_pos>3</x_pos>
             <y_pos>2</y_pos>
-            <species>0</species>
+            <speciesCount>0</speciesCount>
         </organism>
         <organism>
             <x_pos>1</x_pos>
             <y_pos>3</y_pos>
-            <species>0</species>
+            <speciesCount>0</speciesCount>
         </organism>
     </organisms>
 </life>

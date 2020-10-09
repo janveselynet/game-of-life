@@ -3,7 +3,7 @@
 namespace Life\IO;
 
 use Life\Environment\Cell;
-use Life\Exceptions\InvalidInputException;
+use Life\IO\InvalidInputException;
 use Life\TestCase;
 use Life\Utils\Random;
 use Mockery\MockInterface;
@@ -23,7 +23,7 @@ final class XmlFileReaderTest extends TestCase
         $world = $reader->getInitialWorld();
         $expectedSize = 5;
         Assert::same($expectedSize, $world->getSize());
-        Assert::same(3, $world->getSpecies());
+        Assert::same(3, $world->getSpeciesCount());
         $cells = $world->getCells();
         $expectedSpecies = [
             [1,    null, 2,    null, 1   ],
@@ -54,7 +54,7 @@ final class XmlFileReaderTest extends TestCase
                 $reader = new XmlFileReader($path, $random);
                 $reader->getInitialWorld();
             },
-            'Life\\Exceptions\\InvalidInputException',
+            'Life\\IO\\InvalidInputException',
             $exceptionMessage
         );
     }
@@ -71,22 +71,22 @@ final class XmlFileReaderTest extends TestCase
             ["input-missing-world.xml", "Missing element 'world'"],
             ["input-missing-iterations.xml", "Missing element 'iterations'"],
             ["input-missing-cells.xml", "Missing element 'cells'"],
-            ["input-missing-species.xml", "Missing element 'species'"],
+            ["input-missing-speciesCount.xml", "Missing element 'speciesCount'"],
             ["input-missing-organisms.xml", "Missing element 'organisms'"],
             ["input-missing-organism-xpos.xml", "Missing element 'x_pos' in some of the element 'organism'"],
             ["input-missing-organism-ypos.xml", "Missing element 'y_pos' in some of the element 'organism'"],
-            ["input-missing-organism-species.xml", "Missing element 'species' in some of the element 'organism'"],
+            ["input-missing-organism-speciesCount.xml", "Missing element 'speciesCount' in some of the element 'organism'"],
             ["input-negative-iterations.xml", "Value of element 'iterations' must be zero or positive number"],
             ["input-negative-cells.xml", "Value of element 'cells' must be positive number"],
             ["input-zero-cells.xml", "Value of element 'cells' must be positive number"],
-            ["input-negative-species.xml", "Value of element 'species' must be positive number"],
-            ["input-zero-species.xml", "Value of element 'species' must be positive number"],
+            ["input-negative-speciesCount.xml", "Value of element 'speciesCount' must be positive number"],
+            ["input-zero-speciesCount.xml", "Value of element 'speciesCount' must be positive number"],
             ["input-negative-organism-xpos.xml", "Value of element 'x_pos' of element 'organism' must be between 0 and number of cells"],
             ["input-exceeded-organism-xpos.xml", "Value of element 'x_pos' of element 'organism' must be between 0 and number of cells"],
             ["input-negative-organism-ypos.xml", "Value of element 'y_pos' of element 'organism' must be between 0 and number of cells"],
             ["input-exceeded-organism-ypos.xml", "Value of element 'y_pos' of element 'organism' must be between 0 and number of cells"],
-            ["input-negative-organism-species.xml", "Value of element 'species' of element 'organism' must be between 0 and maximal number of species"],
-            ["input-exceeded-organism-species.xml", "Value of element 'species' of element 'organism' must be between 0 and maximal number of species"],
+            ["input-negative-organism-speciesCount.xml", "Value of element 'speciesCount' of element 'organism' must be between 0 and maximal number of speciesCount"],
+            ["input-exceeded-organism-speciesCount.xml", "Value of element 'speciesCount' of element 'organism' must be between 0 and maximal number of speciesCount"],
         ];
     }
 

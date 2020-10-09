@@ -3,19 +3,15 @@
 namespace Life\IO;
 
 use Life\Environment\World;
-use Life\Exceptions\OutputWritingException;
 
-/**
- * Basic interface for classes writing game output
- */
 interface IOutputWriter
 {
 
     /**
-     * @param World $world state of world that should be saved
+     * @param World $world
      * @return void
-     * @throws OutputWritingException when writing output failed for some reason
+     * @throws OutputWritingException
      */
-    public function saveWorld(World $world);
+    public function saveWorld(World $world): void;
 
 }
