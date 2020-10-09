@@ -4,84 +4,111 @@ use Life\Game;
 use Life\IO\XmlFileReader;
 use Life\IO\XmlFileWriter;
 use Life\TestCase;
-use Life\Utils\Random;
+use Life\Random;
 use Tester\Assert;
 
 require_once __DIR__ . '/../bootstrap.php';
 
 final class IntegrationTest extends TestCase
 {
+    private const OUTPUT_FILE = 'output.xml';
 
-    const OUTPUT_FILE = 'output.xml';
+    /**
+     * @dataProvider xmlFilesWithWorldProvider
+     * @param string $inputFile
+     * @param string $expectedOutputFile
+     */
+    public function testGame(string $expectedOutputFile, string $inputFile): void
+    {
+        $random = new Random();
+        $game = new Game(new Random());
 
-    protected function tearDown()
+        $input = new XmlFileReader($this->getFilePath($inputFile), $random);
+        $output = new XmlFileWriter($this->getFilePath(self::OUTPUT_FILE));
+
+        $game->run($input, $output);
+
+        $output = $this->loadXmlForComparison(self::OUTPUT_FILE);
+        $expected = $this->loadXmlForComparison($expectedOutputFile);
+
+        Assert::same($expected, $output);
+    }
+
+    public function xmlFilesWithWorldProvider(): Generator
+    {
+        yield [
+            'expectedOutputFile' => 'expected-output1.xml',
+            'inputFile' => 'input1.xml',
+        ];
+
+        yield [
+            'expectedOutputFile' => 'expected-output2.xml',
+            'inputFile' => 'input2.xml',
+        ];
+
+        yield [
+            'expectedOutputFile' => 'expected-output2.xml',
+            'inputFile' => 'input3.xml',
+        ];
+
+        yield [
+            'expectedOutputFile' => 'expected-output2.xml',
+            'inputFile' => 'input4.xml',
+        ];
+
+        yield [
+            'expectedOutputFile' => 'expected-output5.xml',
+            'inputFile' => 'input5.xml',
+        ];
+
+        yield [
+            'expectedOutputFile' => 'expected-output6.xml',
+            'inputFile' => 'input6.xml',
+        ];
+
+        yield [
+            'expectedOutputFile' => 'expected-output5.xml',
+            'inputFile' => 'input7.xml',
+        ];
+
+        yield [
+            'expectedOutputFile' => 'expected-output6.xml',
+            'inputFile' => 'input8.xml',
+        ];
+
+        yield [
+            'expectedOutputFile' => 'expected-output5.xml',
+            'inputFile' => 'input9.xml',
+        ];
+    }
+
+    private function loadXmlForComparison(string $partialFilePath): string
+    {
+        $filePath = $this->getFilePath($partialFilePath);
+
+        $dom = new DOMDocument();
+        $dom->preserveWhiteSpace = false;
+        $dom->formatOutput = true;
+
+        $dom->load($filePath);
+
+        return $dom->saveXML();
+    }
+
+    private function getFilePath(string $partialFilePath): string
+    {
+        return __DIR__ . '/files/' . $partialFilePath;
+    }
+
+    protected function tearDown(): void
     {
         parent::tearDown();
+
         $outputFilePath = $this->getFilePath(self::OUTPUT_FILE);
         if (file_exists($outputFilePath)) {
             unlink($outputFilePath);
         }
     }
-
-    /**
-     * @param string $inputFile
-     * @param string $expectedOutputFile
-     * @dataProvider getInputAndExpectedOutputFiles
-     */
-    public function testGame(string $inputFile, string $expectedOutputFile)
-    {
-        $random = new Random();
-        $game = new Game($random);
-        $input = new XmlFileReader($this->getFilePath($inputFile), $random);
-        $output = new XmlFileWriter($this->getFilePath(self::OUTPUT_FILE));
-        $game->run($input, $output);
-        $output = $this->loadXmlForComparison(self::OUTPUT_FILE);
-        $expected = $this->loadXmlForComparison($expectedOutputFile);
-        Assert::same($expected, $output, "Expected XML and output XML should be same");
-    }
-
-    /**
-     * @return array
-     */
-    public function getInputAndExpectedOutputFiles()
-    {
-        return [
-            ["input1.xml", "expected-output1.xml"],
-            ["input2.xml", "expected-output2.xml"],
-            ["input3.xml", "expected-output2.xml"],
-            ["input4.xml", "expected-output2.xml"],
-
-            ["input5.xml", "expected-output5.xml"],
-            ["input6.xml", "expected-output6.xml"],
-            ["input7.xml", "expected-output5.xml"],
-            ["input8.xml", "expected-output6.xml"],
-            ["input9.xml", "expected-output5.xml"],
-        ];
-    }
-
-    /**
-     * @param string $partialFilePath
-     * @return string
-     */
-    private function loadXmlForComparison($partialFilePath)
-    {
-        $filePath = $this->getFilePath($partialFilePath);
-        $dom = new \DOMDocument();
-        $dom->preserveWhiteSpace = false;
-        $dom->formatOutput = true;
-        $dom->load($filePath);
-        return $dom->saveXML();
-    }
-
-    /**
-     * @param string $partialFilePath
-     * @return string
-     */
-    private function getFilePath(string $partialFilePath)
-    {
-        return __DIR__ . '/files/' . $partialFilePath;
-    }
-
 }
 
 (new IntegrationTest())->run();

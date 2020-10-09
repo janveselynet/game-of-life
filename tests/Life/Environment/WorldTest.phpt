@@ -3,114 +3,87 @@
 namespace Life\Environment;
 
 use Life\TestCase;
-use Life\Utils\Random;
-use Mockery\MockInterface;
+use Life\Random;
+use Mockery;
+use Mockery\Matcher\Closure;
 use Tester\Assert;
 
 require_once __DIR__ . '/../../bootstrap.php';
 
 final class WorldTest extends TestCase
 {
+    private const WORLD_SIZE = 3;
+    private const SPECIES_COUNT = 5;
 
-    const WORLD_SIZE = 3;
-    const SPECIES_COUNT = 5;
-
-    /** @var Cell[][] */
-    private $cells;
-
-    /** @var World */
-    private $world;
-
-    /** @var Random */
-    private $random;
-
-    protected function setUp()
+    public function testWorldEvolution(): void
     {
-        $this->cells = [
-            [$this->createMockCell(), $this->createMockCell(), $this->createMockCell()],
-            [$this->createMockCell(),$this->createMockCell(),$this->createMockCell()],
-            [$this->createMockCell(), $this->createMockCell(), $this->createMockCell()],
-        ];
-        $this->world = new World(self::WORLD_SIZE, self::SPECIES_COUNT, $this->cells);
-        $this->random = \Mockery::mock(Random::class);
-    }
+        $random = new Random();
+        $cells = $this->createSampleCells($random);
+        $world = new World(self::WORLD_SIZE, self::SPECIES_COUNT, $cells);
 
-    public function testGettingSize()
-    {
-        Assert::same(self::WORLD_SIZE, $this->world->getSize());
-    }
+        $evolvedWorld = $world->evolve($random);
 
-    public function testGettingSpecies()
-    {
-        Assert::same(self::SPECIES_COUNT, $this->world->getSpeciesCount());
-    }
+        Assert::same(self::WORLD_SIZE, $evolvedWorld->getSize());
+        Assert::same(self::SPECIES_COUNT, $evolvedWorld->getSpeciesCount());
 
-    public function testGettingCells()
-    {
-        $cells = $this->world->getCells();
-        $this->checkAllCellsAreSet($cells);
-    }
-
-    public function testEvolution()
-    {
-        $this->setEvolutionExpectationsOnCells();
-        $newWorld = $this->world->evolve($this->random);
-        Assert::true($newWorld instanceof World, "Evolved object should be instance of World");
-        Assert::same(self::WORLD_SIZE, $newWorld->getSize());
-        Assert::same(self::SPECIES_COUNT, $newWorld->getSpeciesCount());
-        $newCells = $newWorld->getCells();
-        $this->checkAllCellsAreSet($newCells);
+        $evolvedCells = $evolvedWorld->getCells();
+        $this->assertAllCellsAreSet($evolvedCells);
     }
 
     /**
      * @param Cell[][] $cells
      * @return void
      */
-    private function checkAllCellsAreSet(array $cells)
+    private function assertAllCellsAreSet(array $cells): void
     {
-        Assert::true(is_array($cells), "Cells should be array");
         for ($y = 0; $y < self::WORLD_SIZE; $y++) {
-            Assert::true(isset($cells[$y]), "Cells should have row with index {$y}");
+            Assert::true(isset($cells[$y]), sprintf('Cells should have row with index %s', $y));
             for ($x = 0; $x < self::WORLD_SIZE; $x++) {
-                Assert::true(isset($cells[$y][$x]), "Cells row {$y} should have cell with index {$x}");
-                Assert::true($cells[$y][$x] instanceof Cell, "Object on index {$y},{$x} should be instance of Cell");
+                Assert::true(isset($cells[$y][$x]), sprintf('Cells row %s should have cell with index %s', $y, $x));
             }
         }
     }
 
-    private function createMockCell()
+    /**
+     * @param Random $random
+     * @return Cell[][] $cells
+     */
+    private function createSampleCells(Random $random): array
     {
-        return \Mockery::mock(Cell::class);
-    }
-
-    private function setEvolutionExpectationsOnCells()
-    {
-        $neighboursCount = [
+        $expectedNeighboursCount = [
             [3, 5, 3],
             [5, 8, 5],
             [3, 5, 3],
         ];
+
+        $cells = [];
         for ($y = 0; $y < self::WORLD_SIZE; $y++) {
+            $cells[$y] = [];
             for ($x = 0; $x < self::WORLD_SIZE; $x++) {
-                $cell = $this->cells[$y][$x]; /** @var MockInterface $cellNeighboursCount */
-                $cellNeighboursCount = $neighboursCount[$y][$x];
+                $cell = Mockery::mock(Cell::class);
+                $expectedCellNeighboursCount = $expectedNeighboursCount[$y][$x];
+
                 $cell->shouldReceive('getOrganism')->andReturn(1);
                 $cell->shouldReceive('evolve')
                     ->once()
-                    ->with(
-                        \Mockery::on(function($neighboursArgument) use($cellNeighboursCount) {
-                            if (!($neighboursArgument instanceof Neighbours)) {
-                                return false;
-                            }
-                            return count($neighboursArgument->getNeighbours()) === $cellNeighboursCount;
-                        }),
-                        $this->random
-                    )
-                    ->andReturn(\Mockery::mock(Cell::class));
+                    ->with($this->getNeighboursCountMatcher($expectedCellNeighboursCount), $random)
+                    ->andReturn(Mockery::mock(Cell::class));
+
+                $cells[$y][$x] = $cell;
             }
         }
+
+        return $cells;
     }
 
+    private function getNeighboursCountMatcher(int $expectedNumberOfNeighbours): Closure
+    {
+        return Mockery::on(
+            static function (Neighbours $neighbours) use ($expectedNumberOfNeighbours): bool {
+                return count($neighbours->getNeighbours()) === $expectedNumberOfNeighbours;
+            }
+        );
+    }
 }
 
 (new WorldTest())->run();

@@ -5,7 +5,7 @@ namespace Life\IO;
 use Exception;
 use Life\Environment\Cell;
 use Life\Environment\World;
-use Life\Utils\Random;
+use Life\Random;
 use SimpleXMLElement;
 
 final class XmlFileReader implements IInputReader
@@ -64,7 +64,7 @@ final class XmlFileReader implements IInputReader
 
         $speciesCount = (int)$life->world->species;
         if ($speciesCount <= 0) {
-            throw new InvalidInputException("Value of element 'speciesCount' must be positive number");
+            throw new InvalidInputException("Value of element 'species' must be positive number");
         }
 
         $cells = $this->readCells($life, $worldSize, $speciesCount);
@@ -116,7 +116,7 @@ final class XmlFileReader implements IInputReader
             throw new InvalidInputException("Missing element 'cells'");
         }
         if (!isset($life->world->species)) {
-            throw new InvalidInputException("Missing element 'speciesCount'");
+            throw new InvalidInputException("Missing element 'species'");
         }
         if (!isset($life->organisms)) {
             throw new InvalidInputException("Missing element 'organisms'");
@@ -129,7 +129,7 @@ final class XmlFileReader implements IInputReader
                 throw new InvalidInputException("Missing element 'y_pos' in some of the element 'organism'");
             }
             if (!isset($organism->species)) {
-                throw new InvalidInputException("Missing element 'speciesCount' in some of the element 'organism'");
+                throw new InvalidInputException("Missing element 'species' in some of the element 'organism'");
             }
         }
     }
@@ -163,7 +163,7 @@ final class XmlFileReader implements IInputReader
             $species = (int)$organism->species;
             if ($species < 0 || $species >= $speciesCount) {
                 throw new InvalidInputException(
-                    "Value of element 'speciesCount' of element 'organism' must be between 0 and maximal number of speciesCount"
+                    "Value of element 'species' of element 'organism' must be between 0 and maximal number of species"
                 );
             }
 

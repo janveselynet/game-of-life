@@ -2,14 +2,15 @@
 
 namespace Life;
 
+use Mockery;
+use Tester\TestCase as TestTestCase;
 
-abstract class TestCase extends \Tester\TestCase
+abstract class TestCase extends TestTestCase
 {
-
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
-        \Mockery::close();
-    }
 
+        Mockery::close();
+    }
 }

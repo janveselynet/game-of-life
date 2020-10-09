@@ -2,6 +2,7 @@
 
 namespace Life\Environment;
 
+use Generator;
 use Life\TestCase;
 use Tester\Assert;
 
@@ -9,17 +10,102 @@ require_once __DIR__ . '/../../bootstrap.php';
 
 final class NeighboursTest extends TestCase
 {
-
-    /** @var Cell[] */
-    private $cells;
-
-    /** @var Neighbours */
-    private $neighbours;
-
-    protected function setUp()
+    public function testGettingAvailableSpecies(): void
     {
-        parent::setUp();
-        $this->cells = [
+        $neighbours = $this->createSampleNeighbours();
+
+        $availableSpecies = $neighbours->getAvailableSpecies();
+
+        Assert::same([1, 2, 4], $availableSpecies);
+    }
+
+    public function testGettingSpeciesForBirth()
+    {
+        $neighbours = $this->createSampleNeighboursForBirth();
+
+        $speciesForBirth = $neighbours->getSpeciesForBirth();
+
+        Assert::same([1, 2], $speciesForBirth);
+    }
+
+    /**
+     * @dataProvider speciesCanSurviveProvider
+     * @param bool $expectedResult
+     * @param int $species
+     */
+    public function testGettingIfSpeciesCanSurvive(bool $expectedResult, int $species)
+    {
+        $neighbours = $this->createSampleNeighbours();
+
+        $actualResult = $neighbours->canSpeciesSurvive($species);
+
+        Assert::same($expectedResult, $actualResult);
+    }
+
+    public function speciesCanSurviveProvider(): Generator
+    {
+        yield 'can survive #1' => [
+            'expectedResult' => true,
+            'species' => 1,
+        ];
+
+        yield 'can survive #2' => [
+            'expectedResult' => true,
+            'species' => 2,
+        ];
+
+        yield 'cannot survive #1' => [
+            'expectedResult' => false,
+            'species' => 3,
+        ];
+
+        yield 'cannot survive #2' => [
+            'expectedResult' => false,
+            'species' => 4,
+        ];
+    }
+
+
+    /**
+     * @dataProvider countOfAvailableSpeciesProvider
+     * @param int $expectedCount
+     * @param int $species
+     */
+    public function testGettingCountsOfAvailableSpecies(int $expectedCount, int $species)
+    {
+        $neighbours = $this->createSampleNeighbours();
+
+        $actualCount = $neighbours->getSpeciesCount($species);
+
+        Assert::same($expectedCount, $actualCount);
+    }
+
+    public function countOfAvailableSpeciesProvider(): Generator
+    {
+        yield 'species 1' => [
+            'expectedCount' => 3,
+            'species' => 1,
+        ];
+
+        yield 'species 2' => [
+            'expectedCount' => 2,
+            'species' => 2,
+        ];
+
+        yield 'species 4' => [
+            'expectedCount' => 1,
+            'species' => 4,
+        ];
+
+        yield 'unknown species' => [
+            'expectedCount' => 0,
+            'species' => 150,
+        ];
+    }
+
+    private function createSampleNeighbours(): Neighbours
+    {
+        $cells = [
             new Cell(1),
             new Cell(2),
             new Cell(1),
@@ -27,52 +113,28 @@ final class NeighboursTest extends TestCase
             new Cell(4),
             new Cell(2),
         ];
-        $this->neighbours = new Neighbours($this->cells);
+
+        return new Neighbours($cells);
     }
 
-    public function testGettingNeighbours()
+    private function createSampleNeighboursForBirth(): Neighbours
     {
-        Assert::same($this->cells, $this->neighbours->getNeighbours());
-    }
+        $cells = [
+            new Cell(1),
+            new Cell(2),
+            new Cell(1),
+            new Cell(1),
+            new Cell(4),
+            new Cell(2),
+            new Cell(2),
+            new Cell(4),
+            new Cell(4),
+            new Cell(5),
+            new Cell(4),
+        ];
 
-    public function testGettingAvailableSpecies()
-    {
-        Assert::equal([1, 2, 4], $this->neighbours->getAvailableSpecies());
+        return new Neighbours($cells);
     }
-
-    public function testGettingSpeciesForBirth()
-    {
-        $this->cells[] = new Cell(2);
-        $this->cells[] = new Cell(4);
-        $this->cells[] = new Cell(4);
-        $this->cells[] = new Cell(5);
-        $this->cells[] = new Cell(4);
-        $neighbours = new Neighbours($this->cells);
-        Assert::same([1, 2], $neighbours->getSpeciesForBirth());
-    }
-
-    public function testGettingIfSpeciesCanSurvive()
-    {
-        Assert::true($this->neighbours->canSpeciesSurvive(1));
-        Assert::true($this->neighbours->canSpeciesSurvive(2));
-        Assert::false($this->neighbours->canSpeciesSurvive(3));
-        Assert::false($this->neighbours->canSpeciesSurvive(4));
-    }
-
-    public function testGettingCountsOfAvailableSpecies()
-    {
-        Assert::same(3, $this->neighbours->getSpeciesCount(1));
-        Assert::same(2, $this->neighbours->getSpeciesCount(2));
-        Assert::same(1, $this->neighbours->getSpeciesCount(4));
-    }
-
-    public function testThatCountOfUnavailableSpeciesIsZero()
-    {
-        Assert::same(0, $this->neighbours->getSpeciesCount(0));
-        Assert::same(0, $this->neighbours->getSpeciesCount(3));
-        Assert::same(0, $this->neighbours->getSpeciesCount(150));
-    }
-
 }
 
 (new NeighboursTest())->run();

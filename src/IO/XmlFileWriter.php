@@ -38,7 +38,7 @@ final class XmlFileWriter implements IOutputWriter
 
                     $organism->addChild('x_pos', (string)$x);
                     $organism->addChild('y_pos', (string)$y);
-                    $organism->addChild('speciesCount', (string)$cell->getOrganism());
+                    $organism->addChild('species', (string)$cell->getOrganism());
                 }
             }
         }

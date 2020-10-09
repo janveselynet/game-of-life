@@ -2,7 +2,7 @@
 
 namespace Life\Environment;
 
-use Life\Utils\Random;
+use Life\Random;
 
 final class Cell
 {

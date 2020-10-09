@@ -7,7 +7,6 @@ use Life\IO\InvalidInputException;
 use Life\IO\OutputWritingException;
 use Life\IO\IInputReader;
 use Life\IO\IOutputWriter;
-use Life\Utils\Random;
 
 final class Game
 {

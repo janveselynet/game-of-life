@@ -14,7 +14,7 @@ $command->option('o')
     ->describe('Output XML file')
     ->default('out.xml');
 
-$random = new \Life\Utils\Random();
+$random = new Life\Random();
 $game = new \Life\Game($random);
 
 $input = new \Life\IO\XmlFileReader($command['input'], $random);

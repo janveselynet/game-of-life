@@ -5,7 +5,7 @@ namespace Life;
 use Life\Environment\World;
 use Life\IO\IInputReader;
 use Life\IO\IOutputWriter;
-use Life\Utils\Random;
+use Mockery;
 use Mockery\MockInterface;
 use Tester\Assert;
 
@@ -13,75 +13,72 @@ require_once __DIR__ . '/../bootstrap.php';
 
 final class GameTest extends TestCase
 {
+    private const ITERATION_COUNT = 5;
 
-    const ITERATION_COUNT = 5;
-
-    /** @var Random|MockInterface */
-    private $random;
-
-    /** @var Game */
-    private $game;
-
-    protected function setUp()
+    public function testRunningGame(): void
     {
-        $this->random = \Mockery::mock(Random::class);
-        $this->game = new Game($this->random);
-    }
+        $game = new Game(new Random());
+        $worlds = $this->getWorldMocksForEvolution(self::ITERATION_COUNT);
 
-    public function testRunningGame()
-    {
-        $worlds = $this->getWorldMocks();
-        $input = $this->getInputMock($worlds[0]);
+        $input = $this->getInputMock($worlds[0], self::ITERATION_COUNT);
         $output = $this->getOutputMock($worlds[self::ITERATION_COUNT]);
-        $finalWord = $this->game->run($input, $output);
-        Assert::true($finalWord instanceof World, "Given object should be instance of World");
+
+        $finalWord = $game->run($input, $output);
+
+        Assert::true($finalWord instanceof World);
     }
 
     /**
+     * @param int $iterationsCount
      * @return World[]|MockInterface[]
      */
-    private function getWorldMocks()
+    private function getWorldMocksForEvolution(int $iterationsCount): array
     {
         $worlds = [];
-        for ($i = 0; $i < self::ITERATION_COUNT + 1; $i++) {
-            $world = \Mockery::mock(World::class);
+
+        for ($i = 0; $i < $iterationsCount + 1; $i++) {
+            $world = Mockery::mock(World::class);
+
             if ($i === 0) {
                 $world->shouldReceive('evolve')->never();
-            }
-            else {
+
+            } else {
                 $world->shouldReceive('evolve')
                     ->once()
-                    ->with($this->random)
                     ->andReturn($worlds[0]);
             }
+
             array_unshift($worlds, $world);
         }
+
         return $worlds;
     }
 
     /**
      * @param World $initialWorld
-     * @return IInputReader|MockInterface
+     * @param int $iterationsCount
+     * @return IInputReader&MockInterface
      */
-    private function getInputMock(World $initialWorld)
+    private function getInputMock(World $initialWorld, int $iterationsCount): IInputReader
     {
-        $input = \Mockery::mock(IInputReader::class);
+        $input = Mockery::mock(IInputReader::class);
         $input->shouldReceive('getInitialWorld')->once()->andReturn($initialWorld);
-        $input->shouldReceive('getIterationsCount')->once()->andReturn(self::ITERATION_COUNT);
+        $input->shouldReceive('getIterationsCount')->once()->andReturn($iterationsCount);
+
         return $input;
     }
 
     /**
      * @param World $lastWorld
-     * @return IOutputWriter|MockInterface
+     * @return IOutputWriter&MockInterface
      */
-    private function getOutputMock(World $lastWorld)
+    private function getOutputMock(World $lastWorld): IOutputWriter
     {
-        $output = \Mockery::mock(IOutputWriter::class);
+        $output = Mockery::mock(IOutputWriter::class);
         $output->shouldReceive('saveWorld')->once()->with($lastWorld);
+
         return $output;
     }
-
 }
 
 (new GameTest())->run();
