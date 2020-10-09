@@ -1,11 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Life\Exceptions;
 
 /**
  * Exception that is thrown when some error occurred during output writing
  */
-class OutputWritingException extends LifeException
+final class OutputWritingException extends LifeException
 {
 
 }

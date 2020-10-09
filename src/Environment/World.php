@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Life\Environment;
 
@@ -7,7 +7,7 @@ use Life\Utils\Random;
 /**
  * Representing world, holding size and available cells
  */
-class World
+final class World
 {
 
     /** @var int dimension of the world */

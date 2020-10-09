@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use Life\Game;
 use Life\IO\XmlFileReader;
@@ -9,7 +9,7 @@ use Tester\Assert;
 
 require_once __DIR__ . '/../bootstrap.php';
 
-class IntegrationTest extends TestCase
+final class IntegrationTest extends TestCase
 {
 
     const OUTPUT_FILE = 'output.xml';

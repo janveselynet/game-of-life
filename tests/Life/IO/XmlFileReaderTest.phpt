@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Life\IO;
 
@@ -11,7 +11,7 @@ use Tester\Assert;
 
 require_once __DIR__ . '/../../bootstrap.php';
 
-class XmlFileReaderTest extends TestCase
+final class XmlFileReaderTest extends TestCase
 {
 
     public function testReadingValidFile()

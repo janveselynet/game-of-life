@@ -1,11 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Life\Environment;
 
 /**
  * Representing neighbours of concrete cell, computes some basic statistics about neighbours useful for evolution
  */
-class Neighbours
+final class Neighbours
 {
 
     /** @var Cell[] */

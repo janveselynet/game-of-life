@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Life\Environment;
 
@@ -7,7 +7,7 @@ use Life\Utils\Random;
 /**
  * Representing one cell (element) in world, can be with or without organism
  */
-class Cell
+final class Cell
 {
 
     /** @var int|null species of organism that lives in this cell, null if there is no organism */

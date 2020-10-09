@@ -1,11 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Life\Exceptions;
 
 /**
  * Exception thrown when something goes wrong during reading input
  */
-class InvalidInputException extends LifeException
+final class InvalidInputException extends LifeException
 {
 
 }

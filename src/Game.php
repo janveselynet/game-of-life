@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Life;
 
@@ -12,7 +12,7 @@ use Life\Utils\Random;
 /**
  * Class controlling game play: reads input, runs given number of evolutions and saves result
  */
-class Game
+final class Game
 {
 
     /** @var Random */

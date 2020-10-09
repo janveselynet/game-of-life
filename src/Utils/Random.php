@@ -1,11 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Life\Utils;
 
 /**
  * Methods fr working with randomness. Useful for mocking in tests.
  */
-class Random
+final class Random
 {
 
     /**

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Life;
 
@@ -11,7 +11,7 @@ use Tester\Assert;
 
 require_once __DIR__ . '/../bootstrap.php';
 
-class GameTest extends TestCase
+final class GameTest extends TestCase
 {
 
     const ITERATION_COUNT = 5;

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Life\Environment;
 
@@ -9,7 +9,7 @@ use Tester\Assert;
 
 require_once __DIR__ . '/../../bootstrap.php';
 
-class WorldTest extends TestCase
+final class WorldTest extends TestCase
 {
 
     const WORLD_SIZE = 3;

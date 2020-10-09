@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Life\IO;
 
@@ -9,7 +9,7 @@ use Tester\Assert;
 
 require_once __DIR__ . '/../../bootstrap.php';
 
-class XmlFileWriterTest extends TestCase
+final class XmlFileWriterTest extends TestCase
 {
 
     const OUTPUT_FILE = 'files/output.xml';

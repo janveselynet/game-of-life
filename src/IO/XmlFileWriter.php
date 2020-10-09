@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Life\IO;
 
@@ -9,7 +9,7 @@ use Life\Exceptions\OutputWritingException;
 /**
  * Class for saving given world to XML file
  */
-class XmlFileWriter implements IOutputWriter
+final class XmlFileWriter implements IOutputWriter
 {
 
     const OUTPUT_TEMPLATE = 'files/output-template.xml';

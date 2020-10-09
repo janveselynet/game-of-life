@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Life\IO;
 
@@ -11,7 +11,7 @@ use Life\Utils\Random;
 /**
  * For reading and parsing XML file with input for Game of Life
  */
-class XmlFileReader implements IInputReader
+final class XmlFileReader implements IInputReader
 {
 
     /** @var string path of xml file to read from */

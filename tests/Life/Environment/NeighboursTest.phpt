@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Life\Environment;
 
@@ -7,7 +7,7 @@ use Tester\Assert;
 
 require_once __DIR__ . '/../../bootstrap.php';
 
-class NeighboursTest extends TestCase
+final class NeighboursTest extends TestCase
 {
 
     /** @var Cell[] */
