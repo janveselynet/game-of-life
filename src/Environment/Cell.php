@@ -1,8 +1,9 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Life\Environment;
 
 use Life\Random;
+use function count;
 
 final class Cell
 {

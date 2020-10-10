@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Life;
 
@@ -8,6 +8,7 @@ use Life\IO\IOutputWriter;
 use Mockery;
 use Mockery\MockInterface;
 use Tester\Assert;
+use function array_unshift;
 
 require_once __DIR__ . '/../bootstrap.php';
 
@@ -25,12 +26,11 @@ final class GameTest extends TestCase
 
         $finalWord = $game->run($input, $output);
 
-        Assert::true($finalWord instanceof World);
+        Assert::same($worlds[self::ITERATION_COUNT], $finalWord);
     }
 
     /**
-     * @param int $iterationsCount
-     * @return World[]|MockInterface[]
+     * @return array<World&MockInterface>
      */
     private function getWorldMocksForEvolution(int $iterationsCount): array
     {
@@ -41,7 +41,6 @@ final class GameTest extends TestCase
 
             if ($i === 0) {
                 $world->shouldReceive('evolve')->never();
-
             } else {
                 $world->shouldReceive('evolve')
                     ->once()
@@ -55,8 +54,6 @@ final class GameTest extends TestCase
     }
 
     /**
-     * @param World $initialWorld
-     * @param int $iterationsCount
      * @return IInputReader&MockInterface
      */
     private function getInputMock(World $initialWorld, int $iterationsCount): IInputReader
@@ -69,7 +66,6 @@ final class GameTest extends TestCase
     }
 
     /**
-     * @param World $lastWorld
      * @return IOutputWriter&MockInterface
      */
     private function getOutputMock(World $lastWorld): IOutputWriter

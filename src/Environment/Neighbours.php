@@ -1,21 +1,25 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Life\Environment;
+
+use function array_filter;
+use function array_keys;
+use function array_values;
 
 final class Neighbours
 {
     /**
-     * @var Cell[]
+     * @var array<Cell>
      */
     private array $neighbours;
 
     /**
-     * @var int[] where key is species identifier and value is number of available organisms with this species
+     * @var array<int> where key is species identifier and value is number of available organisms with this species
      */
     private array $availableSpeciesCounts;
 
     /**
-     * @param Cell[] $neighbours
+     * @param array<Cell> $neighbours
      */
     public function __construct(array $neighbours)
     {
@@ -24,7 +28,7 @@ final class Neighbours
     }
 
     /**
-     * @return Cell[]
+     * @return array<Cell>
      */
     public function getNeighbours(): array
     {
@@ -32,7 +36,7 @@ final class Neighbours
     }
 
     /**
-     * @return int[]
+     * @return array<int>
      */
     public function getAvailableSpecies(): array
     {
@@ -40,7 +44,7 @@ final class Neighbours
     }
 
     /**
-     * @return int[]
+     * @return array<int>
      */
     public function getSpeciesForBirth(): array
     {
@@ -66,8 +70,8 @@ final class Neighbours
     }
 
     /**
-     * @param Cell[] $neighbours
-     * @return int[]
+     * @param array<Cell> $neighbours
+     * @return array<int>
      */
     private function computeAvailableSpeciesCounts(array $neighbours): array
     {

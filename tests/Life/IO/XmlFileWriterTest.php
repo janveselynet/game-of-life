@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Life\IO;
 
@@ -7,6 +7,8 @@ use Life\Environment\Cell;
 use Life\Environment\World;
 use Life\TestCase;
 use Tester\Assert;
+use function file_exists;
+use function unlink;
 
 require_once __DIR__ . '/../../bootstrap.php';
 
@@ -52,8 +54,6 @@ final class XmlFileWriterTest extends TestCase
     }
 
     /**
-     * @param string $partialFilePath
-     * @return string
      */
     private function loadXmlForComparison(string $partialFilePath): string
     {
@@ -64,7 +64,7 @@ final class XmlFileWriterTest extends TestCase
         $dom->formatOutput = true;
         $dom->load($filePath);
 
-        return $dom->saveXML();
+        return (string)$dom->saveXML();
     }
 
     private function getFilePath(string $partialFilePath): string

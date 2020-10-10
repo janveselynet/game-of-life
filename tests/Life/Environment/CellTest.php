@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Life\Environment;
 
@@ -8,6 +8,7 @@ use Life\Random;
 use Mockery;
 use Mockery\MockInterface;
 use Tester\Assert;
+use function array_map;
 
 require_once __DIR__ . '/../../bootstrap.php';
 
@@ -15,8 +16,6 @@ final class CellTest extends TestCase
 {
     /**
      * @dataProvider hasOrganismInCellProvider
-     * @param bool $expectedResult
-     * @param int|null $organism
      */
     public function testGettingThatSomeOrganismIsOnCell(bool $expectedResult, ?int $organism): void
     {
@@ -27,6 +26,10 @@ final class CellTest extends TestCase
         Assert::same($expectedResult, $actualResult);
     }
 
+
+    /**
+     * @return Generator<array<mixed>>
+     */
     public function hasOrganismInCellProvider(): Generator
     {
         yield 'no organism' => [
@@ -42,10 +45,7 @@ final class CellTest extends TestCase
 
     /**
      * @dataProvider organismToEvolveProvider
-     * @param int|null $expectedOrganismInCell
-     * @param int|null $originalOrganismInCell
-     * @param int[] $neighbours
-     * @param Random $random
+     * @param array<int> $neighbours
      */
     public function testCellIsEvolved(
         ?int $expectedOrganismInCell,
@@ -61,6 +61,10 @@ final class CellTest extends TestCase
         Assert::same($expectedOrganismInCell, $cellAfterEvolution->getOrganismSpecies());
     }
 
+
+    /**
+     * @return Generator<array<mixed>>
+     */
     public function organismToEvolveProvider(): Generator
     {
         yield 'organism 1 will survive with right number of neighbours' => [
@@ -114,8 +118,7 @@ final class CellTest extends TestCase
     }
 
     /**
-     * @param int[] $neighbours
-     * @return Neighbours
+     * @param array<int> $neighbours
      */
     private function getNeighboursFromNeighbourValues(array $neighbours): Neighbours
     {

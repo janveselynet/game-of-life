@@ -1,2 +1,8 @@
 includes:
     - vendor/phpstan/phpstan-strict-rules/rules.neon
+    - vendor/phpstan/phpstan-mockery/extension.neon
+
+parameters:
+    ignoreErrors:
+        - '#PHPDoc tag @return contains unresolvable type.#'
+        - '#Method [\w\:\\\(\)]+? with return type void returns mixed but should not return anything.#'

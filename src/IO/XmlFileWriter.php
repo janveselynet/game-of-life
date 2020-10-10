@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Life\IO;
 
@@ -6,6 +6,10 @@ use DOMDocument;
 use Life\Environment\Cell;
 use Life\Environment\World;
 use SimpleXMLElement;
+use function assert;
+use function file_put_contents;
+use function simplexml_load_file;
+use function sprintf;
 
 final class XmlFileWriter implements IOutputWriter
 {
@@ -49,8 +53,6 @@ final class XmlFileWriter implements IOutputWriter
     }
 
     /**
-     * @param SimpleXMLElement $life
-     * @return void
      * @throws OutputWritingException
      */
     private function saveXml(SimpleXMLElement $life): void

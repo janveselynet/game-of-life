@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Life;
 
@@ -18,9 +18,6 @@ final class Game
     }
 
     /**
-     * @param IInputReader $input
-     * @param IOutputWriter $outputWriter
-     * @return World
      * @throws InvalidInputException
      * @throws OutputWritingException
      */
@@ -37,5 +34,4 @@ final class Game
 
         return $world;
     }
-
 }

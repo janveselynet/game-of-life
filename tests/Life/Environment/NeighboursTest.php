@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Life\Environment;
 
@@ -30,8 +30,6 @@ final class NeighboursTest extends TestCase
 
     /**
      * @dataProvider speciesCanSurviveProvider
-     * @param bool $expectedResult
-     * @param int $species
      */
     public function testGettingIfSpeciesCanSurvive(bool $expectedResult, int $species): void
     {
@@ -42,6 +40,9 @@ final class NeighboursTest extends TestCase
         Assert::same($expectedResult, $actualResult);
     }
 
+    /**
+     * @return Generator<array<mixed>>
+     */
     public function speciesCanSurviveProvider(): Generator
     {
         yield 'can survive #1' => [
@@ -65,11 +66,8 @@ final class NeighboursTest extends TestCase
         ];
     }
 
-
     /**
      * @dataProvider countOfAvailableSpeciesProvider
-     * @param int $expectedCount
-     * @param int $species
      */
     public function testGettingCountsOfAvailableSpecies(int $expectedCount, int $species): void
     {
@@ -80,6 +78,9 @@ final class NeighboursTest extends TestCase
         Assert::same($expectedCount, $actualCount);
     }
 
+    /**
+     * @return Generator<array<mixed>>
+     */
     public function countOfAvailableSpeciesProvider(): Generator
     {
         yield 'species 1' => [

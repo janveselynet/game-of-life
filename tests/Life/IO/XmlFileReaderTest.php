@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Life\IO;
 
@@ -35,15 +35,13 @@ final class XmlFileReaderTest extends TestCase
     /**
      * @dataProvider invalidFilesProvider
      *
-     * @param string $expectedExceptionMessage
-     * @param string $fileName
      */
     public function testReadingThrowsExceptionWhenGivenFileIsInvalid(
         string $expectedExceptionMessage,
         string $fileName
     ): void {
         Assert::exception(
-            static function() use ($fileName): void {
+            static function () use ($fileName): void {
                 $path = __DIR__ . '/files/' . $fileName;
                 $reader = new XmlFileReader($path, new Random());
                 $reader->getInitialWorld();
@@ -53,6 +51,10 @@ final class XmlFileReaderTest extends TestCase
         );
     }
 
+
+    /**
+     * @return Generator<array<mixed>>
+     */
     public function invalidFilesProvider(): Generator
     {
         yield 'non existent file' => [
@@ -136,22 +138,26 @@ final class XmlFileReaderTest extends TestCase
         ];
 
         yield 'negative value in x position of organism' => [
-            'expectedExceptionMessage' => "Value of element 'x_pos' of element 'organism' must be between 0 and number of cells",
+            'expectedExceptionMessage' => "Value of element 'x_pos' of element 'organism' must be "
+                . 'between 0 and number of cells',
             'fileName' => 'input-negative-organism-xpos.xml',
         ];
 
         yield 'too big value in x position of organism' => [
-            'expectedExceptionMessage' => "Value of element 'x_pos' of element 'organism' must be between 0 and number of cells",
+            'expectedExceptionMessage' => "Value of element 'x_pos' of element 'organism' must be "
+                . 'between 0 and number of cells',
             'fileName' => 'input-exceeded-organism-xpos.xml',
         ];
 
         yield 'negative value in y position of organism' => [
-            'expectedExceptionMessage' => "Value of element 'y_pos' of element 'organism' must be between 0 and number of cells",
+            'expectedExceptionMessage' => "Value of element 'y_pos' of element 'organism' must be "
+                . 'between 0 and number of cells',
             'fileName' => 'input-negative-organism-ypos.xml',
         ];
 
         yield 'too big value in y position of organism' => [
-            'expectedExceptionMessage' => "Value of element 'y_pos' of element 'organism' must be between 0 and number of cells",
+            'expectedExceptionMessage' => "Value of element 'y_pos' of element 'organism' must be "
+                . 'between 0 and number of cells',
             'fileName' => 'input-exceeded-organism-ypos.xml',
         ];
 
@@ -195,10 +201,7 @@ final class XmlFileReaderTest extends TestCase
     }
 
     /**
-     * @param int $expectedSize
-     * @param int $expectedSpeciesCount
-     * @param int[][] $expectedCellOrganisms
-     * @param World $world
+     * @param array<array<int|null>> $expectedCellOrganisms
      */
     private function assertWorld(
         int $expectedSize,

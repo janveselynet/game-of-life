@@ -34,6 +34,10 @@ final class IntegrationTest extends TestCase
         Assert::same($expected, $output);
     }
 
+
+    /**
+     * @return Generator<array<string>>
+     */
     public function xmlFilesWithWorldProvider(): Generator
     {
         yield [

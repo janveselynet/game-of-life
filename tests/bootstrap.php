@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 $loader = include __DIR__ . '/../vendor/autoload.php';
 $loader->addPsr4('Life\\', __DIR__ . '/Life');

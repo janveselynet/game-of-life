@@ -2,11 +2,18 @@
 
 namespace Life\IO;
 
-use Exception;
 use Life\Environment\Cell;
 use Life\Environment\World;
 use Life\Random;
 use SimpleXMLElement;
+use Throwable;
+use function assert;
+use function count;
+use function file_exists;
+use function libxml_clear_errors;
+use function libxml_get_errors;
+use function libxml_use_internal_errors;
+use function simplexml_load_file;
 
 final class XmlFileReader implements IInputReader
 {
@@ -40,7 +47,6 @@ final class XmlFileReader implements IInputReader
     }
 
     /**
-     * @return void
      * @throws InvalidInputException
      */
     private function loadFile(): void
@@ -74,7 +80,6 @@ final class XmlFileReader implements IInputReader
     }
 
     /**
-     * @return SimpleXMLElement
      * @throws InvalidInputException
      */
     private function loadXmlFile(): SimpleXMLElement
@@ -91,8 +96,7 @@ final class XmlFileReader implements IInputReader
             if (count($errors) > 0) {
                 throw new InvalidInputException('Cannot read XML file');
             }
-
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             throw new InvalidInputException('Cannot read XML file');
         }
 
@@ -101,8 +105,6 @@ final class XmlFileReader implements IInputReader
     }
 
     /**
-     * @param SimpleXMLElement $life
-     * @return void
      * @throws InvalidInputException
      */
     private function validateXmlFile(SimpleXMLElement $life): void
@@ -136,10 +138,7 @@ final class XmlFileReader implements IInputReader
     }
 
     /**
-     * @param SimpleXMLElement $life
-     * @param int $worldSize
-     * @param int $speciesCount
-     * @return Cell[][]
+     * @return array<array<Cell>>
      * @throws InvalidInputException
      */
     private function readCells(SimpleXMLElement $life, int $worldSize, int $speciesCount): array

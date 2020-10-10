@@ -1,8 +1,10 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Life\Environment;
 
 use Life\Random;
+use function max;
+use function min;
 
 final class World
 {
@@ -11,14 +13,12 @@ final class World
     private int $speciesCount;
 
     /**
-     * @var Cell[][]
+     * @var array<array<Cell>>
      */
     private array $cells;
 
     /**
-     * @param int $size
-     * @param int $species
-     * @param Cell[][] $cells
+     * @param array<array<Cell>> $cells
      */
     public function __construct(int $size, int $species, array $cells)
     {
@@ -38,7 +38,7 @@ final class World
     }
 
     /**
-     * @return Cell[][]
+     * @return array<array<Cell>>
      */
     public function getCells(): array
     {

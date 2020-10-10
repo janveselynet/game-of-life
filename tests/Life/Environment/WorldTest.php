@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Life\Environment;
 
@@ -7,6 +7,8 @@ use Life\Random;
 use Mockery;
 use Mockery\Matcher\Closure;
 use Tester\Assert;
+use function count;
+use function sprintf;
 
 require_once __DIR__ . '/../../bootstrap.php';
 
@@ -31,8 +33,7 @@ final class WorldTest extends TestCase
     }
 
     /**
-     * @param Cell[][] $cells
-     * @return void
+     * @param array<array<Cell>> $cells
      */
     private function assertAllCellsAreSet(array $cells): void
     {
@@ -45,8 +46,7 @@ final class WorldTest extends TestCase
     }
 
     /**
-     * @param Random $random
-     * @return Cell[][] $cells
+     * @return array<array<Cell>> $cells
      */
     private function createSampleCells(Random $random): array
     {
