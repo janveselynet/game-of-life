@@ -5,7 +5,7 @@ PHP implementation of [Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Ga
 ## How to run application
 
 ```
-php gol.php -i in.xml -o out.xm
+php gol.php game:run -i in.xml -o out.xm
 ```
 
 Parameter ```-o``` is optional, default value is ```out.xml```.

@@ -4,7 +4,7 @@
     "ext-dom": "*",
     "ext-libxml": "*",
     "ext-simplexml": "*",
-    "nategood/commando": "*"
+    "symfony/console": "^5.1"
   },
   "require-dev": {
     "roave/security-advisories": "dev-master",

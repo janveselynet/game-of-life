@@ -2,22 +2,16 @@
 
 require './vendor/autoload.php';
 
-$command = new \Commando\Command();
+use Life\Game;
+use Life\Random;
+use Life\RunGameCommand;
+use Symfony\Component\Console\Application;
 
-$command->option('i')
-    ->aka('input')
-    ->describe('Input XML file')
-    ->require();
+$random = new Random();
+$game = new Game($random);
+$runGameCommand = new RunGameCommand($game, $random);
 
-$command->option('o')
-    ->aka('output')
-    ->describe('Output XML file')
-    ->default('out.xml');
+$application = new Application();
+$application->add($runGameCommand);
 
-$random = new Life\Random();
-$game = new \Life\Game($random);
-
-$input = new \Life\IO\XmlFileReader($command['input'], $random);
-$output = new \Life\IO\XmlFileWriter($command['output']);
-
-$game->run($input, $output);
+$application->run();
