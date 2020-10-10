@@ -11,7 +11,8 @@
     "nette/tester": "^2.3",
     "mockery/mockery": "^1.4",
     "dg/bypass-finals": "^1.2",
-    "phpstan/phpstan": "^0.12.48"
+    "phpstan/phpstan": "^0.12.48",
+    "phpstan/phpstan-strict-rules": "^0.12.5"
   },
   "autoload": {
     "psr-4": {
@@ -19,6 +20,6 @@
     }
   },
   "scripts": {
-    "phpstan": "vendor/bin/phpstan analyse src tests --level=max"
+    "phpstan": "vendor/bin/phpstan analyse src tests --level=max --configuration=phpstan.neon"
   }
 }
