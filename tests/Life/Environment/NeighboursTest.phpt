@@ -19,7 +19,7 @@ final class NeighboursTest extends TestCase
         Assert::same([1, 2, 4], $availableSpecies);
     }
 
-    public function testGettingSpeciesForBirth()
+    public function testGettingSpeciesForBirth(): void
     {
         $neighbours = $this->createSampleNeighboursForBirth();
 
@@ -33,7 +33,7 @@ final class NeighboursTest extends TestCase
      * @param bool $expectedResult
      * @param int $species
      */
-    public function testGettingIfSpeciesCanSurvive(bool $expectedResult, int $species)
+    public function testGettingIfSpeciesCanSurvive(bool $expectedResult, int $species): void
     {
         $neighbours = $this->createSampleNeighbours();
 
@@ -71,7 +71,7 @@ final class NeighboursTest extends TestCase
      * @param int $expectedCount
      * @param int $species
      */
-    public function testGettingCountsOfAvailableSpecies(int $expectedCount, int $species)
+    public function testGettingCountsOfAvailableSpecies(int $expectedCount, int $species): void
     {
         $neighbours = $this->createSampleNeighbours();
 

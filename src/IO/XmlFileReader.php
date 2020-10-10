@@ -173,7 +173,7 @@ final class XmlFileReader implements IInputReader
             if (isset($cells[$y][$x])) {
                 $existingCell = $cells[$y][$x];
                 /** @var Cell $existingCell */
-                $availableSpecies = [$existingCell->getOrganism(), $species];
+                $availableSpecies = [$existingCell->getOrganismSpecies(), $species];
                 $finalSpecies = $this->random->getRandomArrayValue($availableSpecies);
             }
 

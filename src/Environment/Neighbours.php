@@ -10,7 +10,7 @@ final class Neighbours
     private array $neighbours;
 
     /**
-     * @var int[] where key is speciesCount identifier and value is number of available organisms with this speciesCount
+     * @var int[] where key is species identifier and value is number of available organisms with this species
      */
     private array $availableSpeciesCounts;
 
@@ -74,7 +74,7 @@ final class Neighbours
         $counts = [];
 
         foreach ($neighbours as $neighbour) {
-            $species = $neighbour->getOrganism();
+            $species = $neighbour->getOrganismSpecies();
             if ($species !== null) {
                 $counts[$species] = $counts[$species] ?? 0;
                 $counts[$species]++;

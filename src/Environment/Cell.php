@@ -8,36 +8,37 @@ final class Cell
 {
 
     /**
-     * @var int|null speciesCount of organism that lives in this cell, null if there is no organism
+     * @var int|null species of organism that lives in this cell, null if there is no organism
      */
-    private ?int $organism;
+    private ?int $organismSpecies;
 
-    public function __construct(?int $organism = null)
+    public function __construct(?int $organismSpecies = null)
     {
-        $this->organism = $organism;
+        $this->organismSpecies = $organismSpecies;
     }
 
-    public function getOrganism(): ?int
+    public function getOrganismSpecies(): ?int
     {
-        return $this->organism;
+        return $this->organismSpecies;
     }
 
     public function hasOrganism(): bool
     {
-        return $this->organism !== null;
+        return $this->organismSpecies !== null;
     }
 
     public function evolve(Neighbours $neighbours, Random $random): Cell
     {
-        if ($this->hasOrganism() && $neighbours->canSpeciesSurvive($this->organism)) {
+        if ($this->hasOrganism() && $neighbours->canSpeciesSurvive($this->organismSpecies)) {
             return $this;
         }
+
         $speciesForBirth = $neighbours->getSpeciesForBirth();
         if (count($speciesForBirth) > 0) {
             $newSpecies = $random->getRandomArrayValue($speciesForBirth);
             return new Cell($newSpecies);
         }
+
         return new Cell();
     }
-
 }

@@ -58,7 +58,7 @@ final class CellTest extends TestCase
 
         $cellAfterEvolution = $originalCell->evolve($neighbourCells, $random);
 
-        Assert::same($expectedOrganismInCell, $cellAfterEvolution->getOrganism());
+        Assert::same($expectedOrganismInCell, $cellAfterEvolution->getOrganismSpecies());
     }
 
     public function organismToEvolveProvider(): Generator

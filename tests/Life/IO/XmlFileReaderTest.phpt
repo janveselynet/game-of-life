@@ -177,7 +177,7 @@ final class XmlFileReaderTest extends TestCase
 
         /** @var Cell $cell */
         $cell = $world->getCells()[0][0];
-        Assert::same(1, $cell->getOrganism());
+        Assert::same(1, $cell->getOrganismSpecies());
     }
 
     /**
@@ -214,7 +214,7 @@ final class XmlFileReaderTest extends TestCase
             for ($x = 0; $x < $expectedSize; $x++) {
                 /** @var Cell $cell */
                 $cell = $cells[$y][$x];
-                Assert::same($expectedCellOrganisms[$y][$x], $cell->getOrganism());
+                Assert::same($expectedCellOrganisms[$y][$x], $cell->getOrganismSpecies());
             }
         }
     }

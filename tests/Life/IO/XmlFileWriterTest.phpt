@@ -15,7 +15,7 @@ final class XmlFileWriterTest extends TestCase
     private const OUTPUT_FILE = 'files/output.xml';
     private const EXPECTED_OUTPUT_FILE = '/files/output-expected.xml';
 
-    public function testWritingXmlFile()
+    public function testWritingXmlFile(): void
     {
         $world = $this->getSampleWorld();
         $writer = new XmlFileWriter($this->getFilePath(self::OUTPUT_FILE));

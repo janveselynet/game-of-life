@@ -63,7 +63,7 @@ final class WorldTest extends TestCase
                 $cell = Mockery::mock(Cell::class);
                 $expectedCellNeighboursCount = $expectedNeighboursCount[$y][$x];
 
-                $cell->shouldReceive('getOrganism')->andReturn(1);
+                $cell->shouldReceive('getOrganismSpecies')->andReturn(1);
                 $cell->shouldReceive('evolve')
                     ->once()
                     ->with($this->getNeighboursCountMatcher($expectedCellNeighboursCount), $random)
