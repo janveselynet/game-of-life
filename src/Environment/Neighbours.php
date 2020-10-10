@@ -74,6 +74,7 @@ final class Neighbours
         $counts = [];
 
         foreach ($neighbours as $neighbour) {
+            /** @var Cell $neighbour */
             $species = $neighbour->getOrganismSpecies();
             if ($species !== null) {
                 $counts[$species] = $counts[$species] ?? 0;

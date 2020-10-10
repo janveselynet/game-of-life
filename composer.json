@@ -10,11 +10,15 @@
     "roave/security-advisories": "dev-master",
     "nette/tester": "^2.3",
     "mockery/mockery": "^1.4",
-    "dg/bypass-finals": "^1.2"
+    "dg/bypass-finals": "^1.2",
+    "phpstan/phpstan": "^0.12.48"
   },
   "autoload": {
     "psr-4": {
       "Life\\": "src/"
     }
+  },
+  "scripts": {
+    "phpstan": "vendor/bin/phpstan analyse src tests --level=max"
   }
 }

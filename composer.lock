@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8d6d58a07db9bc017a15581b4999fa0a",
+    "content-hash": "e4258a201320a91ec8e4f9d9c7d431e0",
     "packages": [
         {
             "name": "kevinlebrun/colors.php",
@@ -413,6 +413,48 @@
                 "validation"
             ],
             "time": "2020-08-07T10:34:21+00:00"
+        },
+        {
+            "name": "phpstan/phpstan",
+            "version": "0.12.48",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpstan/phpstan.git",
+                "reference": "d364cfbac9ffd869570cdfea7eaa6541c3dac666"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/d364cfbac9ffd869570cdfea7eaa6541c3dac666",
+                "reference": "d364cfbac9ffd869570cdfea7eaa6541c3dac666",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1|^8.0"
+            },
+            "conflict": {
+                "phpstan/phpstan-shim": "*"
+            },
+            "bin": [
+                "phpstan",
+                "phpstan.phar"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.12-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHPStan - PHP Static Analysis Tool",
+            "time": "2020-10-01T13:20:16+00:00"
         },
         {
             "name": "roave/security-advisories",

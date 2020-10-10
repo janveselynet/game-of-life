@@ -6,7 +6,6 @@ use Life\Random;
 
 final class Cell
 {
-
     /**
      * @var int|null species of organism that lives in this cell, null if there is no organism
      */
@@ -29,7 +28,7 @@ final class Cell
 
     public function evolve(Neighbours $neighbours, Random $random): Cell
     {
-        if ($this->hasOrganism() && $neighbours->canSpeciesSurvive($this->organismSpecies)) {
+        if ($this->organismSpecies !== null && $neighbours->canSpeciesSurvive($this->organismSpecies)) {
             return $this;
         }
 

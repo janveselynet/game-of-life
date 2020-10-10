@@ -24,6 +24,8 @@ final class XmlFileWriter implements IOutputWriter
         $cells = $world->getCells();
 
         $life = simplexml_load_file(sprintf('%s/%s', __DIR__, self::OUTPUT_TEMPLATE));
+        assert($life !== false);
+
         $life->world->cells = $size;
         $life->world->species = $world->getSpeciesCount();
 
@@ -56,7 +58,7 @@ final class XmlFileWriter implements IOutputWriter
         $dom = new DOMDocument('1.0');
         $dom->preserveWhiteSpace = false;
         $dom->formatOutput = true;
-        $dom->loadXML($life->asXML());
+        $dom->loadXML((string)$life->asXML());
 
         $result = file_put_contents($this->filePath, $dom->saveXML());
         if ($result === false) {

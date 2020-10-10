@@ -96,6 +96,7 @@ final class XmlFileReader implements IInputReader
             throw new InvalidInputException('Cannot read XML file');
         }
 
+        assert($life !== false);
         return $life;
     }
 
